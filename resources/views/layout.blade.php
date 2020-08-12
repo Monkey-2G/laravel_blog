@@ -9,6 +9,7 @@
           <li><a href="/">welcome</li>
           <li><a href="/hello">hello</li>
           <li><a href="/contact">contact</a></li>
+          <li><a href="/projects">Projects (Database)</a></li>
         </ul>
     </head>
     <body>
