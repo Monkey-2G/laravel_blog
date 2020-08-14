@@ -6,15 +6,19 @@
 
         <title>@yield('title', 'Laravel')</title>
     <link rel="stylesheet" href="{{ mix('css/tailwind.css')}}"></link>
-        <ul>
+        <!--
+          <ul>
           <li><a href="/">welcome</li>
           <li><a href="/hello">hello</li>
           <li><a href="/contact">contact</a></li>
           <li><a href="/projects">Projects (Database)</a></li>
         </ul>
+        -->
     </head>
     <body>
-      <div class="bg-red-800">This Area is tailwind.CSS Area</div>
-    @yield('content')
+      <!-- <div class="bg-red-100">This Area is tailwind.CSS Area</div> -->
+      <div class="container mx-auto">
+        @yield('content')
+      </div>
     </body>
 </html>
