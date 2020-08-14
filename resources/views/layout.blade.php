@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>@yield('title', 'Laravel')</title>
+    <link rel="stylesheet" href="{{ mix('css/tailwind.css')}}"></link>
         <ul>
           <li><a href="/">welcome</li>
           <li><a href="/hello">hello</li>
@@ -13,6 +14,7 @@
         </ul>
     </head>
     <body>
+      <div class="bg-red-800">This Area is tailwind.CSS Area</div>
     @yield('content')
     </body>
 </html>
