@@ -9,7 +9,8 @@ class TaskController extends Controller
 {
     public function index ()
     {
-        $tasks = Task::all(); // 6 Line에 선언된 Task Model(tasks Database)의 정보를 모두 가져온다.
+        // $tasks = Task::all(); // 6 Line에 선언된 Task Model(tasks Database)의 정보를 모두 가져온다.
+        $tasks = Task::latest()->get(); // 6 Line에 선언된 Task Model(tasks Database)의 정보를 내림차순으로 모두 가져온다 (Desc).    
 
         return view('tasks.index', [
             'tasks' => $tasks
@@ -52,5 +53,27 @@ class TaskController extends Controller
     public function show (Task $task)
     {
       return view('tasks.show', ['task' => $task]);  
+    }
+
+    public function edit(Task $task) 
+    {
+        return view('tasks.edit', ['task' => $task]);
+    }
+
+    public function update(Task $task)
+    {
+        $task->update([
+            'title' => request('title'),
+            'content' => request('content')
+        ]);
+
+        return redirect('/tasks/'.$task->id);
+    }
+
+    public function destory(Task $task)
+    {
+        $task->delete();
+        
+        return redirect('/tasks');
     }
 }
