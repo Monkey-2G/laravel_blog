@@ -30,11 +30,30 @@ class TaskController extends Controller
 
         $task 라는 변수에 create (DB insert) action을 실행시키면, action이 실행된 record의 정보를 담게 된다. 
          */
+        
+        /* 
+        request 값들의 유효성 검사를 back-end 에서 할 수 있다. 
+        HTML 태그쪽에서 required를 설정하지 않아도, 아래 코드와 같이 name값의 유효성 검사를 설정할 수 있다.
+        만약 해당 유효성 검사가 통과하지 않을 시, 기본적으로는 redirect를 하게 된다.
+        */
+         request()->validate([
+             'title' => 'required',
+             'content' => 'required'
+             ]);
 
+         /*
+         아래 구문과 다른점은 request method를 사용했다.
+         request() method는 Laravel에서 기본 제공되며, 25 Line의 function 의 parameter Request를 선언하지 않고도
+         reuqest 값을 가져올 수 있다.
+         */
+         $task = Task::create(request(['title', 'body']));
+
+        /*
         $task = Task::create([
             'title' => $request->input('title'), // Request 항목 중 input type의 name이 title인 값을 Task의 title column에 생성한다.
             'content' => $request->input('content')    // Request 항목 중 input type의 name이 body인 값을 Task의 body column에 생성한다.
         ]);
+         */
 
         /* 
             Task::create action을 완료한 후, 이동할 page를 설정한다.
@@ -62,11 +81,19 @@ class TaskController extends Controller
 
     public function update(Task $task)
     {
+        request()->validate([
+            'title' => 'required',
+            'content' => 'required'
+        ]);
+
+        $task ->update(request(['title', 'content']));
+
+        /*
         $task->update([
             'title' => request('title'),
             'content' => request('content')
         ]);
-
+        */
         return redirect('/tasks/'.$task->id);
     }
 
