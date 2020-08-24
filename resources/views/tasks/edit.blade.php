@@ -11,14 +11,14 @@
         <!-- layout.blade 에서 csrf meta tag를 생성한 후, POST로 보낼 page의 form tag 안에 csrf를 선언한다.  -->
         @csrf 
         <label class="block" for="title">Title</label>
-        <input class="border border-gray-800 w-full @error('title') border border-red-800 @enderror" type="text" id="title" name="title" value="{{ $task->title }}" required>
+        <input class="border border-gray-800 w-full @error('title') border border-red-800 @enderror" type="text" id="title" name="title" value="{{ old('title') ? old('title') : $task->title }}" required>
         
         @error('title')
             <small class="text-red-700"> {{ $message }}</small>
         @enderror
         
         <label class="block" for="content">content</label>
-        <textarea class="border border-gray-800 w-full @error('content') border border-red-800 @enderror" id="content" name="content" cols="30" rows="10" required>{{ $task->content }}</textarea>
+        <textarea class="border border-gray-800 w-full @error('content') border border-red-800 @enderror" id="content" name="content" cols="30" rows="10" required>{{ old('content') ? old('content') : $task->content }}</textarea>
         @error('content')
             <small class="text-red-700"> {{ $message }}</small>
         @enderror
