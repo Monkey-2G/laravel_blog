@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\TaskController;
+use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,19 +27,29 @@ Route::get('/contact', 'HomeController@contact');
 
 Route::get('/projects', 'ProjectController@index');
 
-Route::get('/tasks', 'TaskController@index');
+/*
+    xprefix는 그룹안의 라우트에 특정 URI을 접두어로 지정할 때 사용한다.
+    Middleware는 아래의 라우트를 통해페이지에 접근하기 전에 거치는 중간 단계라고 생각하면 될듯.
+    = tasks URI에 속하는 모든 경로는 페이지 접근 전 auth (로그인 인증)을 먼저 거친 후에 해당 경로로 이동하게 된다.
+*/
+Route::prefix('tasks')->middleware('auth')->group(function () {
 
-Route::get('/tasks/create', 'TaskController@create');
+    Route::get('/', 'TaskController@index');
 
-Route::post('/tasks', 'TaskController@store');
+    Route::get('/create', 'TaskController@create');
 
-Route::get('/tasks/{task}', 'TaskController@show');
+    Route::post('/', 'TaskController@store');
 
-Route::get('tasks/{task}/edit', 'TaskController@edit');
+    Route::get('/{task}', 'TaskController@show');
 
-Route::put('tasks/{task}', 'TaskController@update');
+    Route::get('/{task}/edit', 'TaskController@edit');
 
-Route::delete('tasks/{task}', 'TaskController@destory');Auth::routes();
+    Route::put('/{task}', 'TaskController@update');
+
+    Route::delete('/{task}', 'TaskController@destory');
+});
+
+Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
