@@ -15,9 +15,13 @@ class CreateTasksTable extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
             $table->string('title');
             $table->longText('content');
             $table->timestamps();
+
+            // user_id column을 users table의 id값으로 외래키를 설정한다.
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

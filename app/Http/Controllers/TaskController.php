@@ -10,7 +10,8 @@ class TaskController extends Controller
     public function index ()
     {
         // $tasks = Task::all(); // 6 Line에 선언된 Task Model(tasks Database)의 정보를 모두 가져온다.
-        $tasks = Task::latest()->get(); // 6 Line에 선언된 Task Model(tasks Database)의 정보를 내림차순으로 모두 가져온다 (Desc).    
+        // 6 Line에 선언된 Task Model(tasks Database)에서 자기 자신이 작성한 내용을 내림차순으로 모두 가져온다 (Desc). 
+        $tasks = Task::latest()->where('user_id', auth()->id())->get();    
 
         return view('tasks.index', [
             'tasks' => $tasks
@@ -46,7 +47,12 @@ class TaskController extends Controller
          request() method는 Laravel에서 기본 제공되며, 25 Line의 function 의 parameter Request를 선언하지 않고도
          reuqest 값을 가져올 수 있다.
          */
-         $task = Task::create(request(['title', 'body']));
+         //$task = Task::create(request(['title', 'content']));
+
+         $values = request(['title', 'content']);
+         $values['user_id'] = auth()->id(); // 현재 로그인된 (auth)의 id를 가져온다.
+
+         $task = Task::create($values);
 
         /*
         $task = Task::create([
