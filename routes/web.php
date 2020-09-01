@@ -32,6 +32,8 @@ Route::get('/projects', 'ProjectController@index');
     Middleware는 아래의 라우트를 통해페이지에 접근하기 전에 거치는 중간 단계라고 생각하면 될듯.
     = tasks URI에 속하는 모든 경로는 페이지 접근 전 auth (로그인 인증)을 먼저 거친 후에 해당 경로로 이동하게 된다.
 */
+
+/* 
 Route::prefix('tasks')->middleware('auth')->group(function () {
 
     Route::get('/', 'TaskController@index');
@@ -48,6 +50,10 @@ Route::prefix('tasks')->middleware('auth')->group(function () {
 
     Route::delete('/{task}', 'TaskController@destory');
 });
+*/
+
+Route::resource('tasks', 'TaskController')->middleware('auth'); // 위의 route 경로를 하나로 묶어 처리가 가능하다.
+
 
 Auth::routes();
 
