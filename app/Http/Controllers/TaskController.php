@@ -77,6 +77,20 @@ class TaskController extends Controller
     */
     public function show (Task $task)
     {
+       /* 
+        현재 로그인한 id와 Task model의 user_id (= task table의 user_id)가 같지 않을 경우, 403 error 반환.
+        abort 함수는 HTTP exception 발생.
+        abort_if 함수는 if문이 참일 때 HTTP exception 발생. 
+        abort_unless 함수는 if문이 거짓일 때  HTTP exception 발생.
+
+        if(auth()->id() != $task->user_id)
+        {
+            abort(403);
+        }   
+        abort_if(auth()->id() != $task->user_id, 403);
+        */
+        abort_unless(auth()->user()->owns($task), 403); // owns 함수는 User Model에서 만들어서 사용한다.
+
       return view('tasks.show', ['task' => $task]);  
     }
 
@@ -87,6 +101,8 @@ class TaskController extends Controller
 
     public function update(Task $task)
     {
+        abort_unless(auth()->user()->owns($task), 403); // owns 함수는 User Model에서 만들어서 사용한다.
+
         request()->validate([
             'title' => 'required',
             'content' => 'required'
@@ -105,6 +121,8 @@ class TaskController extends Controller
 
     public function destory(Task $task)
     {
+        abort_unless(auth()->user()->owns($task), 403); // owns 함수는 User Model에서 만들어서 사용한다.
+
         $task->delete();
         
         return redirect('/tasks');
