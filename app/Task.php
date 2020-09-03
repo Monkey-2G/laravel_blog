@@ -12,4 +12,9 @@ class Task extends Model
     */ 
     protected $fillable = ['title', 'content', 'user_id']; 
     // protected $guarded = ['title,' 'content']; // fillable와는 반대로 사용하지 않을 column을 지정한다.
+
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
 }

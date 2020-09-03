@@ -11,7 +11,10 @@ class TaskController extends Controller
     {
         // $tasks = Task::all(); // 6 Line에 선언된 Task Model(tasks Database)의 정보를 모두 가져온다.
         // 6 Line에 선언된 Task Model(tasks Database)에서 자기 자신이 작성한 내용을 내림차순으로 모두 가져온다 (Desc). 
-        $tasks = Task::latest()->where('user_id', auth()->id())->get();    
+        // $tasks = Task::latest()->where('user_id', auth()->id())->get();    
+
+        // User.php Model file에 tasks 관계를 설정함으로써, 로그인한 회원의 tasks List를 구할 수 있다.
+        $tasks = auth()->user()->tasks()->latest()->get()   ; 
 
         return view('tasks.index', [
             'tasks' => $tasks
